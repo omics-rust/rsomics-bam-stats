@@ -1,10 +1,9 @@
 #![allow(clippy::cast_precision_loss)]
 
-use std::fs::File;
 use std::io::{BufWriter, Write};
+use std::num::NonZero;
 use std::path::Path;
 
-use noodles::bam;
 use rsomics_common::{Result, RsomicsError};
 use serde::Serialize;
 
@@ -26,10 +25,8 @@ pub struct BamStats {
     pub bases_q30: u64,
 }
 
-pub fn compute_stats(input: &Path) -> Result<BamStats> {
-    let file = File::open(input)
-        .map_err(|e| RsomicsError::InvalidInput(format!("{}: {e}", input.display())))?;
-    let mut reader = bam::io::Reader::new(file);
+pub fn compute_stats(input: &Path, workers: NonZero<usize>) -> Result<BamStats> {
+    let mut reader = rsomics_bamio::open_with_workers(input, workers)?;
     let _header = reader.read_header().map_err(RsomicsError::Io)?;
 
     let mut s = BamStats::default();
