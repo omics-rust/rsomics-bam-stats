@@ -64,7 +64,9 @@ fn summary_matches_samtools_stats() {
         "primary mapped"
     );
 
-    // these fields exclude sec/supp by nature, so compare directly
+    // "paired reads" and "properly paired" exclude secondary+supplementary in both ours
+    // and samtools, so compare directly. "unmapped reads" and "duplicates" are
+    // flag-level counts that match verbatim.
     let direct = [
         ("unmapped reads", "reads unmapped"),
         ("paired reads", "reads paired"),
