@@ -12,6 +12,11 @@ description = "Comprehensive alignment statistics from BAM — Rust port of samt
 name = "rsomics-bam-stats"
 path = "src/main.rs"
 
+
+[lib]
+name = "rsomics_bam_stats"
+path = "src/lib.rs"
+doctest = false
 [dependencies]
 rsomics-common = { version = "0.6" }
 rsomics-help = { version = "0.3" }
