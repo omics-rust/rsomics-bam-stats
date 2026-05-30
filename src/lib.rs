@@ -53,8 +53,7 @@ pub fn compute_stats(input: &Path, workers: NonZero<usize>) -> Result<BamStats> 
         if flags.is_duplicate() {
             s.duplicates += 1;
         }
-        // samtools stats "reads paired"/"reads properly paired" exclude secondary and
-        // supplementary alignments, counting only primary-alignment fragment membership.
+        // samtools stats excludes secondary/supplementary from paired-read counts.
         let is_primary = !flags.is_secondary() && !flags.is_supplementary();
         if flags.is_segmented() && is_primary {
             s.paired_reads += 1;
